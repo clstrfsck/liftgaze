@@ -1,0 +1,11 @@
+__pycache__/
+input/
+output/
+runs/
+train/
+val/
+.venv/
+lift_predict.mp4
+train.cache
+val.cache
+yolo11n.pt
