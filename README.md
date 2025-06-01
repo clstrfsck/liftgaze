@@ -8,13 +8,20 @@ information to input video files and raw, synchronised gaze data.
 $ pip3 install -r requirements.txt
 ```
 
+### Edit the project file (not strictly necessary)
+Edit `project.py` and adjust filenames to suit.  Note that this file uses
+"example" as the default project name, but this can be changed.
+
+Note that some tuneable items have not yet been moved into the project config,
+and need to be edited in the source, mostly in `04video.py` and `05hitbox.py`.
+
 ### Assemble input files
 In the `./input` directory place:
-- `lift.mp4` the input image file
-- `lift.tsv` the tab-separated file with synchronised gaze information
-- `lift.yaml` the project information file— see below for details
+- `example.mp4` the input video file.  Many formates are supported
+- `example.tsv` the tab-separated file with synchronised gaze information
+- `example.yaml` the project information file— see below for details
 
-Example `lift.yaml`:
+Possible contents of `example.yaml`:
 ```
 path: .
 train: train
@@ -29,10 +36,10 @@ names:
 
 ## Step 1
 Split the video file into frames.
-- Copy the input video to `./input/lift.mp4` (you may need to create this directory)
+- Copy the input video to `./input/example.mp4` (you may need to create this directory)
 - Run the `00split.py` file
 
-This will extract all the frames in the video into the `./output` directory as `.jpg` files.  Each filename will include the frame number and video timestamp and named `frame_{frameNumber}_{timestampMicroseconds}.jpg`.
+This will extract all the frames in the video into the `./output_frames` directory as `.jpg` files.  Each filename will include the frame number and video timestamp and named `frame_{frameNumber}_{timestampMicroseconds}.jpg`.
 
 ## Step 2
 Sample some images from the video frames for training.  About 80% of the samples should be used for training, and 20% of the frames for validation.
@@ -65,21 +72,30 @@ Move approximately 20% of the images and their annotation files into a `./val` d
 ## Step 3
 Train YOLO on our training data.
 
-- Run `./02train.py`.  This will produce a trained model in `runs/train/yolo11-lift/weights/best.pt`.
+- Run `./02train.py`.  This will produce a trained model in `runs/train/yolo11-example/weights/best.pt`.
 
-Check the confusion matrix in `./runs/train/yolo11-lift/confusion_matrix_normalized.png` to make sure that each label is well identified.
-Also check the predictions in `runs/train/yolo11-lift2` to make sure the features are correctly identified and labelled.
+Check the confusion matrix in `./runs/train/yolo11-example/confusion_matrix_normalized.png` to make sure that each label is well identified.
+Also check the predictions in `runs/train/yolo11-example2` to make sure the features are correctly identified and labelled.
 
 This is by far the most time consuming process here, but should only need to be run once for each similar set of input videos.
 
 ## Step 4
 Using the model generated in step 3, run the predictions on our data.
 
-- Run `./03predict.py`.  This will output `.jpg` and `.json` image and hitbox information in JSON format into the `./runs/detect/predict/` directory for each frame in the `./output` directory that was created in step 1.
+- Run `./03predict.py`.  This will output `.jpg` and `.json` image and hitbox information in JSON format into the `./runs/detect/predict/` directory for each frame in the `./output_frames` directory that was created in step 1.
 
 It might be worthwhile reviewing the resultant images before proceeding to the next stage.
 
 ## Step 5
 Using the output images from step 4, together with the gaze data, output a video with labelled features and gaze location.
 
-- Run `./04video.py`.  This will output a `lift_predict.mp4` video.
+- Run `./04video.py`.  This will output a `example_predict.mp4` video.
+
+## Step 6
+Using the output hitboxes from step 4, together with the gaze data, output a TSV format file with each feature classes status for each frame.
+
+This will output a row for each frame with the following data:
+- Frame number, starting at zero
+- Frame time, in integer microseconds
+- For each feature class, either `true` or `false` if the gaze was inside a hitbox for that class.  These columns will be named `<className>_hit`
+- For each feature class, either `true` or `false` if a feature of that class was detected in that frame.  These columns will be named `<classname>_box`
