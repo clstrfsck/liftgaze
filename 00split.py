@@ -7,15 +7,14 @@ import cv2
 # The output frames are saved in the OUTPUT_DIR directory.
 # The output filename format is 'frame_<frame_number>_<timestamp>.jpg'.
 # The timestamp is in microseconds and is rounded to the nearest microseconds.
-INPUT_FILE = 'input/lift.mp4'
-from dirs import OUTPUT_DIR
+from project import OUTPUT_DIR, INPUT_VIDEO_FILE
 
 OUTPUT_DIR.mkdir(exist_ok = True)
 for file in OUTPUT_DIR.iterdir():
     if file.is_file():
         file.unlink()
 
-capture = cv2.VideoCapture(INPUT_FILE)
+capture = cv2.VideoCapture(INPUT_VIDEO_FILE)
 nextFrame = 0
 timestamp = 0.0
 while (True):

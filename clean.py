@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-from dirs import OUTPUT_DIR
+from files import OUTPUT_DIR
 
 directories = [ OUTPUT_DIR ]
 

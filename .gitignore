@@ -1,11 +1,10 @@
 __pycache__/
 input/
-output/
+output_frames/
 runs/
 train/
 val/
 .venv/
-lift_predict.mp4
 train.cache
 val.cache
 yolo11n.pt
