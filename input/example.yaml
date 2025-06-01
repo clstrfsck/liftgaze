@@ -1,0 +1,9 @@
+path: .
+train: train
+val: val
+
+# Classes
+names:
+  0: weight
+  1: bar
+  2: person
