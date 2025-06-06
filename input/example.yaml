@@ -4,6 +4,7 @@ val: val
 
 # Classes
 names:
-  0: weight
-  1: bar
-  2: person
+  0: head
+  1: torso
+  2: bar
+  3: weight

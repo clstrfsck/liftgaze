@@ -29,9 +29,10 @@ val: val
 
 # Classes
 names:
-  0: weight
-  1: bar
-  2: person
+  0: head
+  1: torso
+  2: bar
+  3: weight
 ```
 
 ## Step 1
@@ -59,9 +60,10 @@ Annotate the images in the sample directory.  I used https://www.makesense.ai/ f
 I used 8 training images and 2 validation images with annotations for each.
 
 I used labels for:
-- weight
+- head
+- torso
 - bar
-- person
+- weight
 
 Order needs to match the information in `lift.yaml` in the setup section.
 

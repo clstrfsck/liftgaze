@@ -5,7 +5,7 @@ from pathlib import Path
 import json
 
 from files import images_in_dir
-from project import YOLO_TRAIN_DIR, OUTPUT_DIR
+from project import YOLO_TRAIN_DIR, OUTPUT_DIR, CONFIDENCE_THRESHOLD
 
 model = YOLO(YOLO_TRAIN_DIR / f"weights/best.pt")
 
@@ -13,7 +13,7 @@ files = images_in_dir(OUTPUT_DIR)
 files.sort(key=lambda x: int(x.stem.split("_")[1]))  # Sort by frame number
 
 for file in files:
-    results = model.predict(file, save = True, conf = 0.25, line_width = 1, verbose = False)
+    results = model.predict(file, save = True, conf = CONFIDENCE_THRESHOLD, line_width = 1, verbose = False)
     data = []
     for r in results:
         names = r.names

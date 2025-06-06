@@ -40,6 +40,9 @@ YOLO_TRAIN_DIR = Path(f"runs/train/yolo11-{PROJECT_NAME}")
 # The larger this is, the better the model will be, but it will take longer.
 TRAIN_EPOCHS = 500
 
+# Confidence threshold for YOLO predictions.
+CONFIDENCE_THRESHOLD = 0.5
+
 # YOLO validation output is written here.
 # This code doesn't use this directly, but you should manually check the
 # validation results.
