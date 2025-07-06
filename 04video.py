@@ -5,6 +5,7 @@ import pandas as pd
 
 from bisect import bisect_left
 from numpy import isfinite
+from tqdm import tqdm
 
 from files import images_in_dir
 from project import PROJECT_NAME, INPUT_DIR, YOLO_PREDICT_DIR
@@ -35,6 +36,7 @@ image_height = first_image.shape[0]
 fps = 25  # FIXME: Should read from original video
 
 print(f"Writing video to '{OUTPUT_FILE}' with {len(files)} frames, {image_width}x{image_height} at {fps} FPS")
+progressBar = tqdm(total=len(files), desc="Writing video frames", unit="frame")
 vidwriter = cv2.VideoWriter(OUTPUT_FILE, cv2.VideoWriter_fourcc(*"mp4v"), fps, (image_width, image_height))
 ps = []
 for file in files:
@@ -67,9 +69,11 @@ for file in files:
         cv2.circle(img, (x, y), DOT_SIZE, (128, 255, 128), -1)
         cv2.circle(img, (x, y), DOT_SIZE, (0, 255, 0), 2)
     frame = int(file.stem.split("_")[1])
-    if frame % 100 == 0:
-        print(f"Writing frame {frame} ({file.name})")
     vidwriter.write(img)
+    progressBar.update(1)
 
+progressBar.close()
 vidwriter.release()
 print(f"Wrote {len(files)} frames to '{OUTPUT_FILE}'")
+
+input("Press Enter to continue...")

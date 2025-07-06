@@ -110,4 +110,7 @@ with open(OUTPUT_FILE, 'w') as out:
             out.write("\t")
             out.write(str(cls in boxesByClass).lower())
         out.write("\n")
+
 print(f"Wrote {len(frames)} frames to '{OUTPUT_FILE}'")
+
+input("Press Enter to continue...")
