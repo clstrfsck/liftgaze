@@ -23,3 +23,5 @@ for i in range(SAMPLE_COUNT):
     print(f"Copied {file} to {dst}")
 
 print(f"Copied {SAMPLE_COUNT} files from '{OUTPUT_DIR}' to '{TRAIN_DIR}'.")
+
+input("Press Enter to continue...")
